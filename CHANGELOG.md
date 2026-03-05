@@ -1,3 +1,23 @@
+## [1.6.0](https://github.com/iFleey/Steam-SteamDB-extension/compare/v1.5.3...v1.6.0) (2026-03-05)
+
+
+### Features
+
+* modernize plugin maintenance for current Millennium releases
+* align backend/runtime compatibility around Lua backend workflows
+
+
+### Bug Fixes
+
+* harden backend unload handling during Millennium shutdown
+* improve backend logging and request stability
+
+
+### Continuous Integration
+
+* remove legacy Python dependency installation from workflows
+* standardize build and release jobs on Bun lockfile installs and corrected artifact paths
+
 ## [1.5.3](https://github.com/BossSloth/Steam-SteamDB-extension/compare/v1.5.2...v1.5.3) (2025-07-07)
 
 
