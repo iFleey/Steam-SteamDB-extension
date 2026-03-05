@@ -3,7 +3,7 @@
  * @type {import('semantic-release').GlobalConfig}
  */
 export default {
-  repositoryUrl: 'https://github.com/BossSloth/Steam-SteamDB-extension',
+  repositoryUrl: 'https://github.com/iFleey/Steam-SteamDB-extension',
   tagFormat: 'v${version}',
   branches: ['main'],
   plugins: [

@@ -1,12 +1,21 @@
 # SteamDB Plugin for Millennium
 
 > [!CAUTION]
-> This plugin has been archived and is no longer maintained. No further updates will be provided.
+> Upstream project status: [BossSloth/Steam-SteamDB-extension](https://github.com/BossSloth/Steam-SteamDB-extension) has been archived and is no longer maintained.
 
-> [!CAUTION]
-> Please use the [Extendium](https://github.com/BossSloth/Extendium) plugin instead, which offers more features and is actively maintained.
+> [!IMPORTANT]
+> This fork exists to keep SteamDB functionality usable on current Millennium versions. It modernizes the archived plugin for Millennium's current architecture (Lua backend, Python removed) and adapts protocol/API/runtime compatibility.
+
+This repository is a community-maintained modernization of the original Steam-SteamDB Millennium plugin.  
+Its goal is to preserve core SteamDB-in-Steam functionality after upstream archival and adapt it to modern Millennium releases.
 
 This plugin ports the functionality of the popular [SteamDB Browser Extension](https://github.com/SteamDatabase/BrowserExtension) to the Steam client using Millennium.
+
+## Why this fork exists
+
+- The original Millennium plugin repository was archived and stopped receiving updates.
+- Millennium has evolved (notably around backend/runtime expectations), so the archived plugin no longer fits current releases as-is.
+- This fork applies ongoing compatibility updates (including protocol/API alignment and runtime fixes) so users can continue using SteamDB features on modern Millennium builds.
 
 ## Features
 >Pretty much all of the SteamDB extension's features are included in this plugin.
@@ -23,12 +32,12 @@ See the [SteamDB Browser Extension](https://github.com/SteamDatabase/BrowserExte
 | ![Achievement groups](Images/store_achievement_groups.png) | ![Achievement groups](Images/personal_achievement_groups.png) |
 |                       **Inventory**                        | |
 | ![Inventory](Images/inventory.png)                         | |
-Some pictures where taken from the SteamDB repository
+Some pictures were taken from the SteamDB repository.
 
 ## Installation
 
 1. Ensure you have Millennium installed on your Steam client
-2. Download the [latest release](https://github.com/BossSloth/Steam-SteamDB-extension/releases) of this plugin or from the [Steambrew](https://steambrew.app/plugin?id=c36d5f67c99f) website
+2. Download the [latest release](https://github.com/iFleey/Steam-SteamDB-extension/releases) of this plugin or from the [Steambrew](https://steambrew.app/plugin?id=c36d5f67c99f) website
 3. Place the plugin files in your Millennium plugins directory (should be a plugins folder in your Steam client directory)
 4. Restart your Steam client
 5. Enable the SteamDB plugin in the Millennium plugin menu

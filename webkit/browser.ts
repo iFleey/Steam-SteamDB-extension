@@ -214,11 +214,78 @@ function getMessage(messageKey: string, substitutions: string | string[]): strin
 }
 // #endregion
 
-async function sendMessage(message: { contentScriptQuery: string; [key: string]: unknown; }): Promise<unknown> {
-  const method = callable<[unknown]>(message.contentScriptQuery);
-  const response = await method(message) as string;
+function parseResponsePayload(payload: unknown): unknown {
+  if (typeof payload !== 'string') {
+    return payload;
+  }
 
-  return JSON.parse(response);
+  try {
+    return JSON.parse(payload);
+  } catch (error) {
+    Logger.error(`Failed to parse backend response: ${String(error)}`);
+    return {
+      success: false,
+      error: `Failed to parse backend response: ${String(error)}`,
+    };
+  }
+}
+
+function parseAppId(value: unknown): number | null {
+  const appid = Number(value);
+  return Number.isFinite(appid) ? appid : null;
+}
+
+function parseAppIdFromMessage(message: Record<string, unknown>): number | null {
+  return parseAppId(message.appid ?? message.appId ?? message.app_id);
+}
+
+function toKwargs(args: unknown[]): Record<string, unknown> {
+  const kwargs: Record<string, unknown> = {};
+  args.forEach((value, index) => {
+    kwargs[String(index)] = value;
+  });
+  return kwargs;
+}
+
+async function sendMessage(message: { contentScriptQuery: string; [key: string]: unknown; }): Promise<unknown> {
+  switch (message.contentScriptQuery) {
+    case 'GetApp': {
+      const appid = parseAppIdFromMessage(message);
+      if (appid === null) {
+        return { success: false, error: 'Invalid appid for GetApp' };
+      }
+
+      const method = callable<[Record<string, unknown>], string>('GetApp');
+      return parseResponsePayload(await method(toKwargs([appid, message.contentScriptQuery])));
+    }
+
+    case 'GetAppPrice': {
+      const appid = parseAppIdFromMessage(message);
+      const currency = typeof message.currency === 'string' ? message.currency : '';
+
+      if (appid === null || currency.length === 0) {
+        return { success: false, error: 'Invalid appid/currency for GetAppPrice' };
+      }
+
+      const method = callable<[Record<string, unknown>], string>('GetAppPrice');
+      return parseResponsePayload(await method(toKwargs([appid, currency, message.contentScriptQuery])));
+    }
+
+    case 'GetAchievementsGroups': {
+      const appid = parseAppIdFromMessage(message);
+      if (appid === null) {
+        return { success: false, error: 'Invalid appid for GetAchievementsGroups' };
+      }
+
+      const method = callable<[Record<string, unknown>], string>('GetAchievementsGroups');
+      return parseResponsePayload(await method(toKwargs([appid, message.contentScriptQuery])));
+    }
+
+    default: {
+      Logger.warn(`Unsupported contentScriptQuery: ${message.contentScriptQuery}`);
+      return { success: false, error: `Unsupported contentScriptQuery: ${message.contentScriptQuery}` };
+    }
+  }
 }
 
 // #region Open extension links in new window

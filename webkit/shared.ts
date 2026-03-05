@@ -56,19 +56,19 @@ export async function loadStyle(src: string): Promise<void> {
   });
 }
 
-const backendError = callable<[{ message: string; }]>('Logger.error');
-const backendWarn = callable<[{ message: string; }]>('Logger.warn');
+const backendError = callable<[Record<string, string>], void>('SteamDB_LogError');
+const backendWarn = callable<[Record<string, string>], void>('SteamDB_LogWarn');
 
 export const Logger = {
   error: (...message: string[]): void => {
     console.error('%c SteamDB plugin ', 'background: red; color: white', ...message);
-    backendError({ message: message.join(' ') });
+    backendError({ message: message.join(' ') }).catch(() => undefined);
   },
   log: (...message: string[]): void => {
     console.log('%c SteamDB plugin ', 'background: purple; color: white', ...message);
   },
   warn: (...message: string[]): void => {
     console.warn('%c SteamDB plugin ', 'background: orange; color: white', ...message);
-    backendWarn({ message: message.join(' ') });
+    backendWarn({ message: message.join(' ') }).catch(() => undefined);
   },
 };
