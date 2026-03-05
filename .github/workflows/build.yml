@@ -38,8 +38,7 @@ jobs:
           
       - name: Install dependencies
         run: |
-          bun install
-          pip install -r requirements.txt
+          bun install --frozen-lockfile
           
       - name: Build and create zip
         run: python helpers/build_zip.py
@@ -49,7 +48,7 @@ jobs:
       - name: Extract zip for artifact
         run: |
           mkdir -p temp_artifact
-          unzip "SteamDB-plugin-${{ inputs.version }}.zip" -d temp_artifact/
+          unzip "build/SteamDB-plugin-${{ inputs.version }}.zip" -d temp_artifact/
           
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
